@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     # User added
     'channels',
     'chat',
+    'authentication',
 ]
 
 MIDDLEWARE = [
@@ -127,5 +128,11 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 #---------------
-ASGI_APPLICATION = 'core.routing.application'
+ASGI_APPLICATION = 'djangochat.routing.application'
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer",
+    }
+}
 #---------------
