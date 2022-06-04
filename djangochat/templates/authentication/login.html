@@ -1,0 +1,64 @@
+{% extends '../base.html' %}
+
+{% block title %}Login{% endblock title %}
+
+{% block body %}
+
+<div class="container">
+    <!-- alerts -->
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show shadow-sm" role="alert">
+        <h5><svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="{{ message.tags }}"><use xlink:href="#{{ message.tags }}"/></svg>{{message}}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="container-fluid text-dark">
+  <div class="row">
+    <div class="col-md-5 mx-auto my-5">
+      <div id="second">
+        <div class="myform form">
+          <div class="logo mb-3">
+            <div class="col-md-12 text-dark text-center">
+              <h1>Chat App Login</h1>
+            </div>
+          </div>
+
+          <form action="" method="POST" name="login">{% csrf_token %}
+              <div class="form-group my-3">
+                  <label for="exampleInputEmail1">Username / Email</label>
+                  <input type="text" name="username" class="form-control" id="username" aria-describedby="emailHelp" placeholder="Enter Username / Email" value="" required>
+              </div>
+              <div class="form-group my-3">
+                  <label for="exampleInputEmail1">Password</label>
+                  <input type="password" name="password" autocomplete="on" id="password" class="form-control" aria-describedby="pwnote" placeholder="Enter Password" value="" required>
+              </div>
+              {% comment %} <div class="checkbox mb-3">
+                  <label>
+                      <input type="checkbox" name="remember_me" value="remember-me"> Remember me
+                  </label>
+              </div> {% endcomment %}
+              <div class="col-md-12 text-center my-4">
+                  <button type="submit" name="loginbtn" class="btn btn-secondary mb-3 shadow">Login</button>
+                  {% comment %} <p class="text-center">By continuing, you agree to Capella's <a href="#" class="link-info">Conditions of Use</a> and <a href="#" class="link-info">Privacy Notice</a>.</p> {% endcomment %}
+              </div>
+              <hr class="featurette-divider">
+              <div class="form-group my-4">
+                  <p class="text-center">Don't have account?
+                      <a href="{% url 'signup' %}" id="signup">Sign up here</a>
+                  </p>
+              </div>
+              {% comment %} <div class="form-group my-4">
+                  <p class="text-center">Forgot Password?
+                      <a href="{% url 'resetpassword' %}">Reset password here</a>
+                  </p>
+              </div> {% endcomment %}
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock body %}
