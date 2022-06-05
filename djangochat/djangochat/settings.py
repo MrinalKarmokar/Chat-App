@@ -127,7 +127,7 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-#---------------
+# ---------------
 ASGI_APPLICATION = 'djangochat.asgi.application'
 
 CHANNEL_LAYERS = {
@@ -135,4 +135,4 @@ CHANNEL_LAYERS = {
         "BACKEND": "channels.layers.InMemoryChannelLayer",
     }
 }
-#---------------
+# ---------------
