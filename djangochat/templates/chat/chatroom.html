@@ -1,0 +1,75 @@
+{% extends '../base.html' %}
+
+{% block body %}
+
+Chatroom {{room_id}}
+user = {{request.user.username}}
+
+
+<div class="container m-4 p-4">
+  <form method="POST" class="row g-3">{% csrf_token %}
+    <div class="col-sm-10" id="chat-text">
+      {% for message in messages %}
+      <div class="col-sm-10">
+        {% if message %}
+        <p class="form-control-plaintext"><b>{{message.user.username}}</b></p>
+        <p>{{message.content}}</p>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+    <div class="col-8">
+      <input type="text" class="form-control" id="input" placeholder="Type message here...">
+    </div>
+    <div class="col-4">
+      <button type="submit" id="submit" class="btn btn-primary mb-3">Send</button>
+    </div>
+  </form>
+</div>
+
+{{ room_id|json_script:"room-name" }}
+{{ request.user.username|json_script:"json-username" }}
+
+<script>
+
+  document.querySelector("#submit").onclick = function(e){
+    e.preventDefault();
+
+    const messageInputDom = document.querySelector("#input");
+    const message = messageInputDom.value;
+    chatSocket.send(JSON.stringify({
+      'message': message,
+      'username': userName,
+      'room': roomName,
+    }));
+    messageInputDom.value = '';
+
+    return false;
+  };
+
+  const roomName = JSON.parse(document.getElementById("room-name").textContent);
+  const userName = JSON.parse(document.getElementById("json-username").textContent);
+  
+  const chatSocket = new WebSocket(
+    "ws://" + window.location.host + "/ws/chat/" + roomName + "/"
+  );
+
+  chatSocket.onmessage = function(e){
+    const data = JSON.parse(e.data);
+    console.log(data);
+    if (data.message){
+      let html = '<div class="col-sm-10">';
+          html += '<p class="form-control-plaintext"><b>'+ data.username +'</b></p>'; 
+          html += '<p>' + data.message +'</p></div>';
+
+      document.querySelector("#chat-text").innerHTML += html;
+    }
+
+  }
+
+  chatSocket.onclose = function (e) {
+    console.log('onclose')
+  }
+</script>
+
+{% endblock body %}
