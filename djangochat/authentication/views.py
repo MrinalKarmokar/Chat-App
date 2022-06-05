@@ -66,6 +66,8 @@ def login_view(request):
 
     return render(request, 'authentication/login.html')
 
-def logout(request):
-    context = {}
-    return HttpResponse("Logout")
+def logout_view(request):
+    '''Logging Out Users and clearing sessions'''
+
+    logout(request)
+    return redirect('index')
