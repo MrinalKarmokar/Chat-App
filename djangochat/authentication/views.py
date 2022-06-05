@@ -1,11 +1,11 @@
-from django.http import HttpResponse
-from django.shortcuts import redirect, render
-
-from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
+# from django.http import HttpResponse
+from django.shortcuts import redirect, render
 
 # Create your views here.
+
 
 def signup_view(request):
 
@@ -25,7 +25,8 @@ def signup_view(request):
                 user.save()
             except Exception as e:
                 print(e)
-                messages.warning(request, "Account with this Phone No. already exists")
+                messages.warning(
+                    request, "Account with this Phone No. already exists")
                 return redirect('signup')
 
             messages.success(request, "Signup Successful")
@@ -34,14 +35,14 @@ def signup_view(request):
             request.session['last_name'] = str(user.last_name)
             request.session['email'] = str(user.email)
             return redirect('home')
-        
+
         else:
             messages.warning(request, "Password does'nt match!")
             return redirect('signup')
 
-        
     context = {}
     return render(request, 'authentication/signup.html')
+
 
 def login_view(request):
 
@@ -59,12 +60,13 @@ def login_view(request):
             request.session['email'] = str(user.email)
             context = {}
             return redirect('home')
-        
+
         else:
             messages.error(request, "Wrong Credentials")
             return redirect('login')
 
     return render(request, 'authentication/login.html')
+
 
 def logout_view(request):
     '''Logging Out Users and clearing sessions'''
